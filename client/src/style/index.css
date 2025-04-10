@@ -1,0 +1,97 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body{
+  font-family: sans-serif;
+  background-color: #171817;
+  margin: 0 auto;
+  color: #dddddd;
+}
+
+main{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+h1{
+  text-align: center;
+  color: #fff;
+  margin: 0;
+  padding-top: 1rem;
+}
+form{
+  margin-top: 1rem;
+}
+
+form .basic{
+  display: flex;
+  gap: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+form input{
+  width: 100%;
+  border-radius: 0.3rem;
+  border: 2px solid rgba(128, 128, 128, 0.363);
+  background-color: transparent;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  outline: none;
+  color: #fff;
+}
+
+form input[type="datetime-local"]{
+  color: gray;
+}
+
+form button{
+  width: 100%;
+  margin-top: 0.3rem;
+  padding: 0.4rem 0;
+  font-weight: bolder;
+  font-size: 1rem;
+  border: 0;
+  border-radius: .3rem;
+  cursor: pointer;
+}
+
+.transactions h2{
+  font-size: 1.25em;
+}
+.transactions{
+  padding: 0.5rem 0;
+}
+
+
+.transaction{
+  display: flex;
+  justify-content: space-between;
+  padding: .3rem 0;
+  gap: 5rem;
+  border-top: 1px solid #30313d ;
+}
+.transaction:first-child{
+  border-top: 0;
+}
+
+.transactions h3{
+  font-size: 1.25rem;
+  text-align: right;
+
+}
+.transactions h4{
+  font-size: 1rem;
+  color: #888; 
+}
+.transaction{
+  padding: 0.4rem 0;
+}
+
+.green{
+  color: #1c1;
+}
+
+.red{
+  color: #c11;
+}
