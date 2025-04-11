@@ -1,19 +1,58 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
- const Expense = new mongoose.Schema({
+//gWuwPT34713pB5Y4
+//loneperky
+
+const Expense = new mongoose.Schema({
   title:{
     type:String,
     required:true
   },
-  time:{
+  amount: {
+    type: Number,
+    required: true,
+  },
+  time: {
     type: Date,
     required: true,
   },
-  description:{
+  description: {
+    type: String,
+    required: true,
+  },
+  // Automatically create createdAt and updatedAt fields
+  createdAt: {   
+    type: Date,
+    default: Date.now,   
+  }   
+},
+{ timestamps: true},
+);
+
+const User = new mongoose.Schema({
+  fullname:{
     type:String,
     required:true
+  },
+  email:{
+    type: String,
+    required: true,
+  },
+  password:{
+    type: String,
+    required: true,
+  },
+  // Automatically create createdAt and updatedAt fields
+  createdAt: {   
+    type: Date,
+    default: Date.now,   
+  },
+  updatedAt: {   
+    type: Date,
+    default: Date.now,   
   }
- })
+});
 
- const ExpenseDB = mongoose.model("ExpenseDB",Expense)
- export default ExpenseDB
+const UserDB = mongoose.model("User", User);
+const ExpenseDB = mongoose.model("ExpenseDB", Expense);
+export { ExpenseDB,UserDB };

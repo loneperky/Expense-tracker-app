@@ -1,0 +1,41 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.history-table{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 100vw;
+}
+
+.transaction{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .3rem 0;
+  gap: 5rem;
+  border-top: 1px solid rgb(70,70,70) ;
+  border-bottom: 1px solid rgb(70,70,70) ;
+}
+.transaction:first-child{
+  border-top: 0;
+}
+
+.transaction .name{
+  font-size: 1.25em;
+}
+.transaction .desc{
+  font-size: 0.88em;
+}
+
+.green{
+  font-size: 1.25em;
+  color: #1c1;
+}
+
+.red{
+  font-size: 1.25em;
+  color: red;
+}

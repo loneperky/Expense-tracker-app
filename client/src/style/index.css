@@ -14,6 +14,7 @@ main{
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1rem 0.7rem;
 }
 h1{
   text-align: center;
@@ -56,42 +57,4 @@ form button{
   cursor: pointer;
 }
 
-.transactions h2{
-  font-size: 1.25em;
-}
-.transactions{
-  padding: 0.5rem 0;
-}
 
-
-.transaction{
-  display: flex;
-  justify-content: space-between;
-  padding: .3rem 0;
-  gap: 5rem;
-  border-top: 1px solid #30313d ;
-}
-.transaction:first-child{
-  border-top: 0;
-}
-
-.transactions h3{
-  font-size: 1.25rem;
-  text-align: right;
-
-}
-.transactions h4{
-  font-size: 1rem;
-  color: #888; 
-}
-.transaction{
-  padding: 0.4rem 0;
-}
-
-.green{
-  color: #1c1;
-}
-
-.red{
-  color: #c11;
-}
