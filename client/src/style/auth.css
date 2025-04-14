@@ -1,0 +1,38 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.overview{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* padding: 1rem 8rem; */
+}
+
+
+.register input,label{
+  display: block;
+  margin: 0;
+  padding: 0.3rem 0;
+}
+.register input{
+  width: 20rem;
+  padding: 0.5rem 0.5rem;
+}
+
+.register button{
+  padding: 0.45rem 0;
+  margin-top: 1rem ;
+}
+a{
+  color: red;
+  text-decoration: none;
+  
+}
+p{
+  padding: 0.5rem 0;
+}
+
+

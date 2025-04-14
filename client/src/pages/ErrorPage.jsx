@@ -11,7 +11,7 @@ const ErrorPage = () => {
     <>
       <div className="error">
         <h1>404</h1>
-        <p>Error Page Not Found</p>
+        <p>Error, Page Not Found</p>
       </div>
     </>
   )

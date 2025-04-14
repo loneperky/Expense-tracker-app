@@ -14,7 +14,7 @@ const Transactions = (props) => {
       </div>
     </div>
     <div className="right ">
-      <div className="price red">
+      <div className={props.class}>
         <h3>${props.amount}</h3>
       </div>
       <div className="datetime">

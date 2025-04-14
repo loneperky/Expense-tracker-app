@@ -26,16 +26,19 @@ function Navbar(){
    </div>
     <ul className='menu-items'>
      <li>
-       <NavLink to="/">Home</NavLink> 
+       <a href='#about'>About Us</a> 
       </li>
       <li>
-      <NavLink to="/transactions/history">Expense History</NavLink> 
+      <a href='#testimony'>Testimonies</a> 
       </li> 
+      <li>
+              <a href="https://wa.me/2349126785031?text=I%20Want%20to%20Hire%20A%20Developer" target='_blank'>Hire a Developer</a>
+              </li>
       
     </ul>
       <div className="logout">
         <ul>
-          <li><NavLink to="/">LogOut</NavLink> </li>
+          <li><NavLink to="/register">Register</NavLink> </li>
         </ul>
       </div>
 
@@ -51,14 +54,14 @@ function Navbar(){
     { Show && ( <div className="dropdown">
             <ul>
               <li>
-                <Link  to="/" onClick={Menu}>Home</Link>
+                <Link  to="/#bout" onClick={Menu}>About</Link>
               </li>
              
               <li>
-                <Link to="/transactions/history"  onClick={Menu}>Expense History</Link>
+                <a href='#testimony' onClick={Menu}>Testimonies</a>
               </li>
               <li>
-                <Link to="/new/check/"  onClick={Menu}>Log Out</Link>
+                <Link to="/register"  onClick={Menu}>LogIn</Link>
               </li>
               <li>
               <a href="https://wa.me/2349126785031?text=I%20Want%20to%20Hire%20A%20Developer" target='_blank'>Hire a Developer</a>

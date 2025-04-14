@@ -1,0 +1,128 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.overview{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 8rem;
+}
+
+.hero1{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: 2rem;
+}
+
+.overview img{
+  width: 30rem;
+}
+.hero1 h1{
+  font-size: 4em;
+  text-align: left;
+  color: aqua;
+}
+.hero1 p{
+  width: 25rem;
+  overflow: hidden;
+}
+
+.hero2{
+  padding-bottom: 2rem;
+}
+
+.hero1 button{
+  background-color: rgba(0, 185, 185, 0.874);
+  border: none;
+  border-radius: 0.4rem;
+  margin: 2rem 0;
+  color: aliceblue;
+}
+
+.about h1{
+font-size: 4em;
+}
+
+.hero2 .mini{
+  display: flex;
+  align-items: center;
+}
+
+.hero2 .mini h1{
+  font-size: 4em;
+  text-align: left;
+  color: aqua;
+}
+
+.hero2 button{
+  background-color: rgba(0, 185, 185, 0.827);
+  border: none;
+  border-radius: 0.4rem;
+  margin: 2rem 0;
+  color: aliceblue;
+}
+
+.hero3{
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+.hero3 h1{
+  font-size: 4rem;
+}
+.hero3 button{
+  background-color: rgba(0, 185, 185, 0.827);
+  border: none;
+  border-radius: 0.4rem;
+  margin: 2rem 0;
+  color: aliceblue;
+  
+}
+
+.hero4 h2{
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.hero4 span{
+font-size: 2rem;
+font-weight: bolder;
+}
+
+.hero4{
+  padding: 3rem 0;
+}
+
+.testimony{
+  display: flex;
+  gap: 2rem;
+
+}
+
+.testimony .test2{
+  border-radius: 0rem ;
+}
+
+.testimony .test{
+  background-color: #555;
+  padding: 2rem ;
+  border-radius: 0rem 2rem;
+}
+
+.test h3{
+  padding: 1rem 0;
+  color: lightblue;
+}
+
+
+.footer p{
+  padding-top: 2rem;
+  padding-bottom: 0.5rem;
+  padding-left: 8rem;
+  font-size: 0.8rem;
+}

@@ -1,4 +1,5 @@
 import React, { useState,useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import '../style/history.css'
 import Transactions from "../component/transact";
@@ -21,10 +22,23 @@ const History = () => {
 
   return (
     <>
+    <div className="title">
+      <h1>Trasactions history</h1>
+    </div>
       <div className="history-table">
-        {allTransactions.map(transaction =>{
-          <Transactions title={transaction.title} amount={transaction.amount} time={transaction.time} description={transaction.description}/>
-        })}
+
+        <div className="history-table-body">
+          {allTransactions.map((transaction) => (
+            <Transactions key={transaction._id} title={transaction
+              .title} amount={transaction.amount} description={transaction.description} time={transaction.time} id={transaction._id} date={transaction.date} setAllTransactions={setAllTransactions} allTransactions={allTransactions
+            }/>
+          ))}
+           <div className="expense">
+          <p>
+          <Link to="/">Add new Expenses</Link>
+          </p>
+         </div>
+        </div>
       </div>
     </>
   );

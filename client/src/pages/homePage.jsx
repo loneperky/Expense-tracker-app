@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Transactions from "../component/transact";
 import "../style/index.css";
 import axios from "axios";
 
@@ -27,7 +28,7 @@ function HomePage() {
         setDate(null)
         setDest("")
       }
-      window.location.reload()
+      // window.location.reload()
       console.log(response.data);
     } catch (error) {
       console.error("Error adding transaction:", error);
@@ -35,19 +36,35 @@ function HomePage() {
     }
   };
 
-  useEffect(()=>{
-    const getAllTransactions = async () =>{
-      const transactions = await axios.get("http://localhost:5000/api/all")
-      if(transactions.status){
-        setAllTransactions(transactions.data)
-        console.log(transactions.data)
-      }else{
-        console.log("could not fetch data")
+  const logout = async () => {  
+    try {
+      const response = await axios.get("http://localhost:5000/api/logout");
+      if(response.status === 200) { 
+        alert("Logout successful");
       }
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error logging out:", error);
+      alert("Error logging out");
     }
+  }
+  // const getAllTransactions = async () =>{
+  //   const transactions = await axios.get("http://localhost:5000/api/all")  
+  
 
-    getAllTransactions()
-  },[])
+  // useEffect(()=>{
+  //   const getAllTransactions = async () =>{
+  //     const transactions = await axios.get("http://localhost:5000/api/all")
+  //     if(transactions.status){
+  //       setAllTransactions(transactions.data)
+  //       console.log(transactions.data)
+  //     }else{
+  //       console.log("could not fetch data")
+  //     }
+  //   }
+
+  //   getAllTransactions()
+  // },[])
 
   return (
     <>
@@ -76,9 +93,9 @@ function HomePage() {
                 autoComplete="off"
                 type="text"
                 onChange={(e) => setName(e.target.value)}
-                placeholder={"Amount spent"}
+                placeholder={"Amount spent e.g +200 or -300"}
               />
-              <input type="datetime-local" required onChange={(e) => setDate(e.target.value)} name="time" id="" />
+              <input type="date" required onChange={(e) => setDate(e.target.value)} name="time" id="" />
             </div>
             <div className="description">
               <input
@@ -91,31 +108,10 @@ function HomePage() {
               />
             </div>
             <button >Add New Transaction</button>
+            <button>Logout</button>
           </form>
         
-          <div className="transactions">
-
-            <div className="transaction"> 
-            <div className="left">
-              <div className="name">
-                <h3>{"Apple Watch"}</h3>
-              </div>
-              <div className="discription">
-                <p>{"Decided to get in the digital trends"}</p>
-              </div>
-            </div>
-            <div className="right ">
-              <div className="price red">
-                <h3>${"400"}</h3>
-              </div>
-              <div className="datetime">
-                <p>11-04-12</p>
-              </div>
-            </div>
-            
-           </div>
-          
-          </div>
+       
         </div>
       </main>
     </>
@@ -123,3 +119,11 @@ function HomePage() {
 }
 
 export default HomePage;
+{/* <div className="transactions">
+
+           
+{allTransactions.map((transaction) => (
+  <Transactions class="price" key={transaction._id} title={transaction.title} amount={transaction.amount} description={transaction.description} time={transaction.time} id={transaction._id} date={transaction.date} setAllTransactions={setAllTransactions} allTransactions={allTransactions}/>
+))}
+
+</div> */}

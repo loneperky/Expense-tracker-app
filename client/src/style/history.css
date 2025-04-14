@@ -9,6 +9,13 @@
   align-items: center;
   min-width: 100vw;
 }
+.history-table a{
+  color: gray;
+  text-decoration: none;
+}
+.history-table a:hover{
+  color: rgb(239, 11, 11);
+}
 
 .transaction{
   display: flex;
@@ -27,7 +34,14 @@
   font-size: 1.25em;
 }
 .transaction .desc{
-  font-size: 0.88em;
+  font-size: 0.7em;
+}
+.transaction .datetime{
+  font-size: 0.7em;
+}
+.transaction .price{
+  font-size: 1.15em;
+  font-weight: bold;
 }
 
 .green{
