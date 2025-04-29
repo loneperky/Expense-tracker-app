@@ -54,14 +54,17 @@ function Navbar(){
     { Show && ( <div className="dropdown">
             <ul>
               <li>
-                <Link  to="/#bout" onClick={Menu}>About</Link>
+                <Link  to="/" onClick={Menu}>Home</Link>
+              </li>
+              <li>
+                <a href="/#about" onClick={Menu}>About</a>
               </li>
              
               <li>
                 <a href='#testimony' onClick={Menu}>Testimonies</a>
               </li>
               <li>
-                <Link to="/register"  onClick={Menu}>LogIn</Link>
+                <Link to="/register"  onClick={Menu}>Register</Link>
               </li>
               <li>
               <a href="https://wa.me/2349126785031?text=I%20Want%20to%20Hire%20A%20Developer" target='_blank'>Hire a Developer</a>

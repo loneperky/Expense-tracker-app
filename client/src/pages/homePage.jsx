@@ -1,70 +1,75 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Transactions from "../component/transact";
 import "../style/index.css";
 import axios from "axios";
 
 function HomePage() {
+  axios.defaults.withCredentials = true
   const [amount, setName] = useState(Number);
   const [title, setStuff] = useState("");
   const [description, setDest] = useState("");
   const [time,setDate] = useState(Date)
+  const [user,setUser]= useState(null)
   const [allTransactions,setAllTransactions] = useState([])
 
+  const navigate = useNavigate()
+
+  // useEffect(()=>{
+   
+  //   const getUser = async () =>{
+  //     const profile = await axios.get("http://localhost:7000/api/profile" )
+   
+  //     if(profile.status == 200){
+  //       setUser(profile.data)
+  //     }
+  //   }
+  //   getUser()
+
+  // },[])
+
+  const Logout = async () =>{
+    await axios.post("http://localhost:7000/auth/logout")
+    alert("user logged out successfully")
+    navigate("/login")
+  }
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/add", {
+      const response = await axios.post("http://localhost:7000/api/add", {
         amount,
         description,
         time,
         title
       });
+      
       if(response.status === 200) { 
         alert("Transaction added successfully");
-      }
-      if(response){
-        setStuff("")
-        setName("")
-        setDate(null)
-        setDest("")
+        console.log(response)
       }
       // window.location.reload()
-      console.log(response.data);
     } catch (error) {
       console.error("Error adding transaction:", error);
       alert("Error adding transaction");
     }
   };
 
-  const logout = async () => {  
-    try {
-      const response = await axios.get("http://localhost:5000/api/logout");
-      if(response.status === 200) { 
-        alert("Logout successful");
-      }
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error logging out:", error);
-      alert("Error logging out");
-    }
-  }
-  // const getAllTransactions = async () =>{
-  //   const transactions = await axios.get("http://localhost:5000/api/all")  
   
+  useEffect(()=>{
+    const getAllTransactions = async () =>{
+      const transactions = await axios.get("http://localhost:7000/api/all")
+      if(transactions.status){
+        setAllTransactions(transactions.data)
+        console.log(transactions.data)
+      }else{
+        console.log("could not fetch data")
+      }
+    }
 
-  // useEffect(()=>{
-  //   const getAllTransactions = async () =>{
-  //     const transactions = await axios.get("http://localhost:5000/api/all")
-  //     if(transactions.status){
-  //       setAllTransactions(transactions.data)
-  //       console.log(transactions.data)
-  //     }else{
-  //       console.log("could not fetch data")
-  //     }
-  //   }
-
-  //   getAllTransactions()
-  // },[])
+    getAllTransactions()
+  },[])
 
   return (
     <>
@@ -72,7 +77,7 @@ function HomePage() {
         <div className="center">
           <div className="h">
             <h1>
-              $1500<span>.00</span>
+             
             </h1>
           </div>
           <form onSubmit={handleSubmit}>
@@ -107,23 +112,27 @@ function HomePage() {
                 placeholder={"Description"}
               />
             </div>
-            <button >Add New Transaction</button>
-            <button>Logout</button>
+            <button type="submit" >Add New Transaction</button>
           </form>
-        
-       
+          <button onClick={Logout}>Logout</button>
+          <div className="transactions">
+          <h2>All Transactions here</h2>
+        </div> 
+        <div className="transactions">
+
+
+{/* 
+{allTransactions.map((expense)=> <Transactions key={expense._id} title={expense.title} amount={expense.amount} time={expense.amount} desc={expense.description} />)} */}
+
+</div>
         </div>
+       
       </main>
+    
     </>
   );
 }
 
+
+
 export default HomePage;
-{/* <div className="transactions">
-
-           
-{allTransactions.map((transaction) => (
-  <Transactions class="price" key={transaction._id} title={transaction.title} amount={transaction.amount} description={transaction.description} time={transaction.time} id={transaction._id} date={transaction.date} setAllTransactions={setAllTransactions} allTransactions={allTransactions}/>
-))}
-
-</div> */}

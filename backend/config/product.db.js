@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 //loneperky
 
 const Expense = new mongoose.Schema({
-  user:{
+  userId:{
     type:mongoose.Schema.Types.ObjectId, ref:"User"
   },
   title:{
@@ -58,4 +58,5 @@ const User = new mongoose.Schema({
 
 const UserDB = mongoose.model("User", User);
 const ExpenseDB = mongoose.model("ExpenseDB", Expense);
+
 export { ExpenseDB,UserDB };

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../style/auth.css";
-
 import { useNavigate, Link } from "react-router-dom";
 
-const SignIn = () => {
+const ForgotPassword = () => {
   const [email, SetEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -36,26 +35,16 @@ const SignIn = () => {
     <>
       <div className="overview">
         <div className="register">
-          <h2 style={{ textAlign: "center", paddingTop: "1rem" }}>Login</h2>
+          <h2 style={{ textAlign: "center", paddingTop: "1rem" }}>Account Recovery</h2>
           <form onSubmit={HandleSumit}>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">Enter account email</label>
             <input
               type="text"
               required
               onChange={(e) => SetEmail(e.target.value)}
               placeholder="email"
             />
-
-            <label htmlFor="email">Password</label>
-            <input
-              type="password"
-              required
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="***"
-
-              
-            />
-            <p className="for"><Link to="/forgot-password">Forgot password?</Link></p>
+            <p className="for"><Link to="/login">Continue with password</Link></p>
             <button type="submit">Submit</button>
             <p>
               Don't have an account <Link to="/register">Register</Link>
@@ -67,4 +56,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default ForgotPassword;

@@ -1,26 +1,29 @@
 import React, { useState } from "react";
-import "../style/auth.css";
-import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
-
-const SignUp = () => {
+import { Link, useNavigate } from "react-router-dom";
+import "../style/auth.css"
+import axios from "axios"
+function SignUp() {
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+
   const HandleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/register", {
+     
+      const response = await axios.post("http://localhost:7000/auth/register", {
+        fullname,
         email,
         password,
-        fullname,
       });
       if (response.status) {
         alert("User registered successfully");
         console.log(response);
         navigate("/login");
+      } else {
+        alert("there was an error");
       }
     } catch (error) {
       console.log(error);
@@ -55,14 +58,16 @@ const SignUp = () => {
             <br />
             <label htmlFor="password">Password</label>
             <input
-              type="text"
+              type="password"
               required
               onChange={(e) => setPassword(e.target.value)}
               name="password"
               placeholder="*****"
               autoComplete="off"
             />
-            <button type="submit">Submit</button>
+            <button type="submit" style={{ backgroundColor: "whitesmoke" }}>
+              Submit
+            </button>
             <p>
               Already registered <Link to="/login">LogIn</Link>
             </p>
@@ -71,6 +76,6 @@ const SignUp = () => {
       </form>
     </>
   );
-};
+}
 
 export default SignUp;
