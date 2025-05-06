@@ -35,8 +35,8 @@ function SignUp() {
         toast.error("Password must be less than 20 characters long");
         return;
       }
-
-      const response = await axios.post("http://localhost:7000/auth/register", {
+      const API_URL = 'https://expense-tracker-app-3hti.onrender.com'
+      const response = await axios.post( `${API_URL}/auth/register`, {
         fullname,
         email,
         password,

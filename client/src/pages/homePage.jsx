@@ -16,11 +16,11 @@ function HomePage() {
   const [allTransactions, setAllTransactions] = useState([]);
 
   const navigate = useNavigate();
-
+  const API_URL = 'https://expense-tracker-app-3hti.onrender.com'
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get("http://localhost:7000/auth/profile", {
+        const response = await axios.get(`${API_URL}/auth/profile`, {
           withCredentials: true,
         });
         setUser(response.data);
@@ -36,7 +36,10 @@ function HomePage() {
   // if(!user) return navigate("/login")
 
   const Logout = async () => {
-    await axios.post("http://localhost:7000/auth/logout");
+    await axios.post(`${API_URL}/auth/logout`, {
+      withCredentials: true,
+    });
+    setUser(null);
     alert("user logged out successfully");
     navigate("/login");
   };
@@ -68,7 +71,7 @@ function HomePage() {
         alert("Description must be at least 5 characters long");
         return;
       }
-      const response = await axios.post("http://localhost:7000/api/add", {
+      const response = await axios.post(`${API_URL}/api/add`, {
         amount,
         description,
         time,
@@ -88,7 +91,7 @@ function HomePage() {
 
   useEffect(() => {
     const getAllTransactions = async () => {
-      const transactions = await axios.get("http://localhost:7000/api/all");
+      const transactions = await axios.get(`${API_URL}/api/all`);
       if (transactions.status) {
         setAllTransactions(transactions.data.expenses);
         console.log(transactions.data);

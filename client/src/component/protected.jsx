@@ -7,11 +7,11 @@ const ProtectedRoute = ({ children }) => {
   const [Data, setData] = useState  (null);
   
   const navigate = useNavigate()
-
+ const API_URL = 'https://expense-tracker-app-3hti.onrender.com'
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        await axios.get('http://localhost:7000/auth/profile', { withCredentials: true });
+        await axios.get( `${API_URL}/api/profile`, { withCredentials: true });
         setIsAuthenticated(true);
         
       } catch {

@@ -9,7 +9,7 @@ const SignIn = () => {
   const [email, SetEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+ const API_URL = 'https://expense-tracker-app-3hti.onrender.com'
   const HandleSumit = async (e) => {
     e.preventDefault();
     axios.defaults.withCredentials = true;
@@ -24,7 +24,7 @@ const SignIn = () => {
         toast.error("Password must be at least 6 characters long");
         return;
       }
-      const response = await axios.post("http://localhost:7000/auth/login", {
+      const response = await axios.post(`${API_URL}/auth/login`, {
         email,
         password,
       });

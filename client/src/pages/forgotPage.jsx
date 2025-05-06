@@ -12,7 +12,8 @@ const ForgotPassword = () => {
     axios.defaults.withCredentials = true;
     try {
       email.toLowerCase().trim()
-      const response = await axios.post("http://localhost:7000/auth/forgot-password", {
+       const API_URL = 'https://expense-tracker-app-3hti.onrender.com'
+      const response = await axios.post(`${API_URL}/auth/forgot-password`, {
         email,
       });
       if (response.status) {

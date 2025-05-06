@@ -30,7 +30,10 @@ const ResetPassword = () => {
       return;
     }
     try {
-      const response = await axios.post(`http://localhost:7000/auth/reset-password/${token}`, {
+       const API_URL = 'https://expense-tracker-app-3hti.onrender.com'
+      password.trim();
+      confirmPassword.trim();
+      const response = await axios.post(`${API_URL}/auth/reset-password/${token}`, {
         password,
       });
       if (response.status) {

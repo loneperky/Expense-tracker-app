@@ -4,11 +4,12 @@ import axios from "axios";
 import "../style/history.css";
 import Transactions from "../component/transact";
 const History = () => {
+  
   const [allTransactions, setAllTransactions] = useState([]);
 
   useEffect(() => {
     const Checkhistory = async () => {
-      const transactions = await axios.get("http://localhost:7000/api/all");
+      const transactions = await axios.get(`${API_URL}/api/history`)
       if (transactions.status == 200) {
         console.log(transactions.data);
         alert("See all transactions");
