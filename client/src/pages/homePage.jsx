@@ -1,53 +1,83 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate,Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Transactions from "../component/transact";
 import "../style/index.css";
 import axios from "axios";
 
 function HomePage() {
-  axios.defaults.withCredentials = true
+  axios.defaults.withCredentials = true;
   const [amount, setName] = useState(Number);
   const [title, setStuff] = useState("");
   const [description, setDest] = useState("");
-  const [time,setDate] = useState(Date)
-  const [user,setUser]= useState(null)
-  const [allTransactions,setAllTransactions] = useState([])
+  const [time, setDate] = useState(Date);
+  const [user, setUser] = useState(null);
+  const [allTransactions, setAllTransactions] = useState([]);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  // useEffect(()=>{
-   
-  //   const getUser = async () =>{
-  //     const profile = await axios.get("http://localhost:7000/api/profile" )
-   
-  //     if(profile.status == 200){
-  //       setUser(profile.data)
-  //     }
-  //   }
-  //   getUser()
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get("http://localhost:7000/auth/profile", {
+          withCredentials: true,
+        });
+        setUser(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+        setUser(null);
+        navigate("/login");
+      }
+    };
+    fetchUser();
+  }, []);
+  // if(!user) return navigate("/login")
 
-  // },[])
+  const Logout = async () => {
+    await axios.post("http://localhost:7000/auth/logout");
+    alert("user logged out successfully");
+    navigate("/login");
+  };
 
-  const Logout = async () =>{
-    await axios.post("http://localhost:7000/auth/logout")
-    alert("user logged out successfully")
-    navigate("/login")
-  }
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      amount.trim();
+      title.trim();
+      description.trim();
+      time.trim().toLocaleUpperCase();
+      if (!amount || !title || !description || !time) {
+        alert("Please fill in all fields");
+        return;
+      }
+      if (isNaN(amount)) {
+        alert("Amount must be a number");
+        return;
+      }
+      if (amount < 0) {
+        alert("Amount cannot be negative");
+        return;
+      }
+      if (title.length < 3) {
+        alert("Title must be at least 3 characters long");
+        return;
+      }
+      if (description.length < 5) { 
+        alert("Description must be at least 5 characters long");
+        return;
+      }
       const response = await axios.post("http://localhost:7000/api/add", {
         amount,
         description,
         time,
-        title
+        title,
       });
-      
-      if(response.status === 200) { 
+      if (response.status === 200) {
         alert("Transaction added successfully");
-        console.log(response)
+        console.log(response);
+        toast.success("Transaction added successfully");
       }
       // window.location.reload()
     } catch (error) {
@@ -56,32 +86,30 @@ function HomePage() {
     }
   };
 
-  
-  useEffect(()=>{
-    const getAllTransactions = async () =>{
-      const transactions = await axios.get("http://localhost:7000/api/all")
-      if(transactions.status){
-        setAllTransactions(transactions.data)
-        console.log(transactions.data)
-      }else{
-        console.log("could not fetch data")
+  useEffect(() => {
+    const getAllTransactions = async () => {
+      const transactions = await axios.get("http://localhost:7000/api/all");
+      if (transactions.status) {
+        setAllTransactions(transactions.data.expenses);
+        console.log(transactions.data);
+      } else {
+        console.log("could not fetch data");
       }
-    }
-
-    getAllTransactions()
-  },[])
+    };
+    getAllTransactions();
+  }, []);
 
   return (
     <>
       <main>
         <div className="center">
           <div className="h">
-            <h1>
-             
-            </h1>
+            {user && (
+              <h2> Welcome {user.fullname} </h2>
+            )}
           </div>
           <form onSubmit={handleSubmit}>
-          <div className="description">
+            <div className="description">
               <input
                 type="text"
                 autoComplete="off"
@@ -100,7 +128,13 @@ function HomePage() {
                 onChange={(e) => setName(e.target.value)}
                 placeholder={"Amount spent e.g +200 or -300"}
               />
-              <input type="date" required onChange={(e) => setDate(e.target.value)} name="time" id="" />
+              <input
+                type="date"
+                required
+                onChange={(e) => setDate(e.target.value)}
+                name="time"
+                id=""
+              />
             </div>
             <div className="description">
               <input
@@ -112,27 +146,28 @@ function HomePage() {
                 placeholder={"Description"}
               />
             </div>
-            <button type="submit" >Add New Transaction</button>
+            <button type="submit">Add New Transaction</button>
           </form>
           <button onClick={Logout}>Logout</button>
           <div className="transactions">
-          <h2>All Transactions here</h2>
-        </div> 
-        <div className="transactions">
-
-
-{/* 
-{allTransactions.map((expense)=> <Transactions key={expense._id} title={expense.title} amount={expense.amount} time={expense.amount} desc={expense.description} />)} */}
-
-</div>
+            <h2>All Transactions here</h2>
+          </div>
+          <div className="transactions">
+            {allTransactions.map((transaction) => (
+              <Transactions
+                key={transaction._id}
+                amount={transaction.amount}
+                title={transaction.title}
+                description={transaction.description}
+                time={transaction.time}
+              />
+            ))}
+          </div>
+          <p> <Link to="/transactions">Transaction history</Link> </p>
         </div>
-       
       </main>
-    
     </>
   );
 }
-
-
 
 export default HomePage;

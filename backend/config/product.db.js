@@ -53,7 +53,9 @@ const User = new mongoose.Schema({
   updatedAt: {   
     type: Date,
     default: Date.now,   
-  }
+  },
+  resetToken:String,
+  resetTokenExpiry:Date,
 });
 
 const UserDB = mongoose.model("User", User);

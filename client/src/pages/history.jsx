@@ -8,11 +8,11 @@ const History = () => {
 
   useEffect(() => {
     const Checkhistory = async () => {
-      const transactions = await axios.get("http://localhost:5000/api/all");
+      const transactions = await axios.get("http://localhost:7000/api/all");
       if (transactions.status == 200) {
         console.log(transactions.data);
         alert("See all transactions");
-        setAllTransactions(transactions.data);
+        setAllTransactions(transactions.data.expenses);
       }
     };
     Checkhistory();
@@ -25,7 +25,7 @@ const History = () => {
       </div>
       <div className="history-table">
         <div className="history-table-body">
-          {allTransactions.map((transaction) => (
+          { allTransactions? allTransactions.map((transaction) => (
             <Transactions
               key={transaction._id}
               title={transaction.title}
@@ -35,11 +35,11 @@ const History = () => {
               id={transaction._id}
               date={transaction.date}
             />
-          ))}
+          )) : null}
 
           <div className="expense">
             <p>
-              <Link to="/">Add new Expenses</Link>
+              <Link to="/dashboard">Add new Expenses</Link>
             </p>
           </div>
         </div>

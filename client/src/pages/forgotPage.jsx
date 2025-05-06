@@ -5,7 +5,6 @@ import { useNavigate, Link } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [email, SetEmail] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const HandleSumit = async (e) => {
@@ -13,18 +12,16 @@ const ForgotPassword = () => {
     axios.defaults.withCredentials = true;
     try {
       email.toLowerCase().trim()
-      const response = await axios.post("http://localhost:7000/auth/login", {
+      const response = await axios.post("http://localhost:7000/auth/forgot-password", {
         email,
-        password,
       });
-      if (!response) {
-        alert("could not logged in");
-        navigate("/login")
+      if (response.status) {
+        alert("check your email for confirmation link");
         console.log(response);
       }else{
-        alert("user loggedin successfully")
+        alert("something went wrong")
         console.log(response)
-        navigate('/dashboard')
+        navigate('/login')
       }
     } catch (error) {
       console.log(error);
@@ -40,6 +37,7 @@ const ForgotPassword = () => {
             <label htmlFor="email">Enter account email</label>
             <input
               type="text"
+              name="email"
               required
               onChange={(e) => SetEmail(e.target.value)}
               placeholder="email"

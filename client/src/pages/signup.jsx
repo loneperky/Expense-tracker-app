@@ -1,28 +1,52 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../style/auth.css"
-import axios from "axios"
+import { toast } from "react-toastify";
+import "../style/auth.css";
+import axios from "axios";
 function SignUp() {
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-
   const HandleSubmit = async (e) => {
     e.preventDefault();
     try {
-     
+      fullname.trim();
+      email.trim();
+      password.trim();
+      if (!fullname || !email || !password) {
+        toast.error("Please fill in all fields");
+        return
+      }
+      if (fullname.length < 3) {
+        toast.error("Fullname must be at least 3 characters long");
+        return;
+      }
+      if (password.length < 6) {
+        toast.error("Password must be at least 6 characters long");
+        return;
+      }
+      if (!/\S+@\S+\.\S+/.test(email)) {
+        toast.error("Email is not valid");
+        return;
+      }
+      if (password.length > 20) {
+        toast.error("Password must be less than 20 characters long");
+        return;
+      }
+
       const response = await axios.post("http://localhost:7000/auth/register", {
         fullname,
         email,
         password,
       });
       if (response.status) {
-        alert("User registered successfully");
         console.log(response);
+        toast.success("User registered successfully");
         navigate("/login");
       } else {
+        toast.error("User already exists");
         alert("there was an error");
       }
     } catch (error) {

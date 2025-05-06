@@ -6,8 +6,10 @@ const authToken = (req,res,next) =>{
   const token = req.cookies.token
   try {
     if(!token) return res.json({status:false,message:"User not authorised"})
-    const decoded = jwt.verify(token,process.env.JWT_SECRET)
-    req.user = decoded
+      
+    const user = jwt.verify(token,process.env.JWT_SECRET)
+    req.user = user
+    console.log(req.user)
     next()
   } catch (error) {
     return res.json({message:"there was a server error"})
