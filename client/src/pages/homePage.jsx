@@ -156,7 +156,7 @@ function HomePage() {
             <h2>All Transactions here</h2>
           </div>
           <div className="transactions">
-            {allTransactions.map((transaction) => (
+            { allTransactions ? allTransactions.map((transaction) => (
               <Transactions
                 key={transaction._id}
                 amount={transaction.amount}
@@ -164,7 +164,7 @@ function HomePage() {
                 description={transaction.description}
                 time={transaction.time}
               />
-            ))}
+            )) : null}
           </div>
           <p> <Link to="/transactions">Transaction history</Link> </p>
         </div>
