@@ -15,6 +15,16 @@ function HomePage() {
   const [user, setUser] = useState(null);
   const [allTransactions, setAllTransactions] = useState([]);
 
+  const formatDate = (rawDate) => {
+    const date = new Date(rawDate);
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months start at 0
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${month}-${day}-${year}`; // MM-DD-YYYY
+  };
+  const formattedDate = formatDate(time.trim());
+  console.log(formattedDate);  
+
   const navigate = useNavigate();
   const API_URL = 'https://expense-tracker-app-3hti.onrender.com'
   useEffect(() => {
@@ -50,7 +60,7 @@ function HomePage() {
       amount.trim();
       title.trim();
       description.trim();
-      time.trim().toLocaleUpperCase();
+      time: formattedDate.trim();
       if (!amount || !title || !description || !time) {
         alert("Please fill in all fields");
         return;
@@ -81,6 +91,10 @@ function HomePage() {
         alert("Transaction added successfully");
         console.log(response);
         toast.success("Transaction added successfully");
+        setName("");
+        setStuff("");
+        setDest("");
+        setDate("");
       }
       // window.location.reload()
     } catch (error) {
@@ -92,11 +106,12 @@ function HomePage() {
   useEffect(() => {
     const getAllTransactions = async () => {
       const transactions = await axios.get(`${API_URL}/api/all`);
-      if (transactions.status) {
+      if (transactions.length > 0) {
         setAllTransactions(transactions.data.expenses);
         console.log(transactions.data);
       } else {
         console.log("could not fetch data");
+        setAllTransactions(null)
       }
     };
     getAllTransactions();
@@ -129,7 +144,7 @@ function HomePage() {
                 autoComplete="off"
                 type="text"
                 onChange={(e) => setName(e.target.value)}
-                placeholder={"Amount spent e.g +200 or -300"}
+                placeholder={"Amount spent e.g -200"}
               />
               <input
                 type="date"
@@ -151,21 +166,25 @@ function HomePage() {
             </div>
             <button type="submit">Add New Transaction</button>
           </form>
-          <button onClick={Logout}>Logout</button>
+          <button className="btn" onClick={Logout}>Logout</button>
           <div className="transactions">
             <h2>All Transactions here</h2>
           </div>
           <div className="transactions">
-            { allTransactions ? allTransactions.map((transaction) => (
-              <Transactions
-                key={transaction._id}
-                amount={transaction.amount}
-                title={transaction.title}
-                description={transaction.description}
-                time={transaction.time}
-              />
-            )) : null}
-          </div>
+           {Array.isArray(allTransactions) && allTransactions.length > 0 ? (
+          allTransactions.map((transaction) => (
+          <Transactions
+            key={transaction._id}
+            amount={transaction.amount}
+            title={transaction.title}
+            description={transaction.description}
+            time={transaction.time}
+          />
+        ))
+      ) : (
+        <p>No transactions found.</p>
+      )}
+      </div>
           <p> <Link to="/transactions">Transaction history</Link> </p>
         </div>
       </main>

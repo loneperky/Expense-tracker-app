@@ -28,12 +28,26 @@ const SignIn = () => {
         email,
         password,
       });
+
+      const getGreeting = () => {
+        const hour = new Date().getHours(); // Get user's local hour (0-23)
+      
+        if (hour < 12) {
+          return "Good morning 🌅";
+        } else if (hour < 17) {
+          return "Good afternoon ☀️";
+        } else {
+          return "Good evening 🌙";
+        }
+      };
+      
+
       if (!response.status) {
         toast.error("User not found");
         navigate("/login");
         console.log(response);
       } else {
-        toast.success("User logged in successfully");
+        toast.success(`${getGreeting()} ${response.data.fullname}`);
         console.log(response, "user logged in successfully");
         alert(response.data.fullname);
         navigate("/dashboard");

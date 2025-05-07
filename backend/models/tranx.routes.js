@@ -12,9 +12,6 @@ router.post("/add",authToken, async (req, res) => {
     if (!amount || !description || !time || !title) {
       return res.json({ status: false, message: "Please input all details" });
     }
-    const userId = req.user;
-    const user = await UserDB.findById(userId);
-    
     const newExpense = new ExpenseDB({
       userId : req.user.id,
       amount,
@@ -24,7 +21,6 @@ router.post("/add",authToken, async (req, res) => {
     });
     await newExpense.save();
     return res.json(newExpense);
-    console.log(newExpense);
   } catch (error) {
     console.log(error);
   }

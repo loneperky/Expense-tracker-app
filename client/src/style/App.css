@@ -30,6 +30,8 @@ nav{
 nav ul{
   display: flex;
   gap: 1.5rem;
+  along-items: center;
+  justify-content: center;
 }
 nav li{
   list-style-type: none;

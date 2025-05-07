@@ -57,4 +57,10 @@ form button{
   cursor: pointer;
 }
 
-
+.btn{
+  background-color: #000a01;
+  color: #fff;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 5px #000a01;
+  margin: 1rem 0;
+}
