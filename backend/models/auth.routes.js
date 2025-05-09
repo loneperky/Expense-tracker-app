@@ -12,68 +12,113 @@ const router = express.Router();
 
 router.post("/register", async (req, res) => {
   const { fullname, email, password } = req.body;
-  try {
-    if (!fullname || !email || !password) {
-      return res.json({ status: false, message: "Please input all details" });
-    }
-    const alreadyRegistered = await UserDB.findOne({ email });
-    if (alreadyRegistered)
-      return res
-        .status(301)
-        .json({ message: "user already exist", status: false });
 
+  try {
+    // Basic validation
+    if (!fullname || !email || !password) {
+      return res.status(422).json({
+        status: false,
+        message: "Please input all details",
+      });
+    }
+
+    // Check if the email already exists
+    const alreadyRegistered = await UserDB.findOne({ email });
+    if (alreadyRegistered) {
+      return res.status(400).json({
+        status: false,
+        message: "User already exists",
+      });
+    }
+
+    // Hash the password before saving
     const hashedPassword = await bcryptjs.hash(password, 10);
+
+    // Create the new user
     const newUser = new UserDB({
       fullname,
       email,
       password: hashedPassword,
     });
+
+    // Save the new user to the database
     await newUser.save();
-    console.log(newUser);
-    return res.json(newUser, {
-      message: "User registered successfully",
+
+    // Send success response with user info (excluding password)
+    return res.status(201).json({
       status: true,
+      message: "User registered successfully",
+      user: {
+        id: newUser._id,
+        fullname: newUser.fullname,
+        email: newUser.email,
+      },
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
+
+    // Return a detailed error message if something goes wrong
+    return res.status(500).json({
+      status: false,
+      message: "Server error, please try again later",
+      error: error.message, // Optional: only in development
+    });
   }
 });
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
+
   try {
+    // Validate input
     if (!email || !password) {
-      return res.json({ status: false, message: "Please input all details" });
+      return res.status(400).json({ status: false, message: "Please input all details" });
     }
+
+    // Check if user exists
     const user = await UserDB.findOne({ email });
     if (!user) {
-      return res.json({ status: false, message: "Invalid credentials" });
+      return res.status(401).json({ status: false, message: "Invalid credentials" });
     }
-    const isMatch = await bcryptjs.compare(password, user.password);
-    if (!isMatch)
-      return res.json({ status: false, message: "Invalid credentials" });
 
+    // Compare passwords
+    const isMatch = await bcryptjs.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ status: false, message: "Invalid credentials" });
+    }
+
+    // Generate token
     const token = jwt.sign(
       { id: user._id, email: user.email, fullname: user.fullname },
       process.env.JWT_SECRET,
-      {
-        expiresIn: "1d",
-      }
+      { expiresIn: "1d" }
     );
 
-    ("❌");
+    // Set cookie
     res.cookie("token", token, {
       httpOnly: true,
-      maxAge: 3600000,
-      secure: true,
-      sameSite: "none",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      secure: true, // true if using HTTPS
+      sameSite: "None", // Required for cross-site cookies
     });
-    // Set the cookie with the token and other options
-    return res.json(user, { status: true, message: "Login successful", token });
+
+    // Send response
+    return res.status(200).json({
+      status: true,
+      message: "Login successful",
+      user: {
+        id: user._id,
+        email: user.email,
+        fullname: user.fullname,
+      },
+    });
+
   } catch (error) {
-    console.log(error);
+    console.error("Login error:", error);
+    return res.status(500).json({ status: false, message: "Server error" });
   }
 });
+
 
 router.get("/profile", authToken, async (req, res) => {
   try {

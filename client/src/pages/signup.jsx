@@ -13,7 +13,7 @@ function SignUp() {
     e.preventDefault();
     try {
       fullname.trim();
-      email.trim();
+      email.trim().toLowerCase();
       password.trim();
       if (!fullname || !email || !password) {
         toast.error("Please fill in all fields");
@@ -68,6 +68,7 @@ function SignUp() {
               name="fullname"
               placeholder="Fullname"
               autoComplete="off"
+              autoFocus
             />
             <br />
             <label htmlFor="email">Email</label>

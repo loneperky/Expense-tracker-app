@@ -9,11 +9,14 @@ const History = () => {
 
   useEffect(() => {
     const Checkhistory = async () => {
-      const transactions = await axios.get(`${API_URL}/api/history`)
+     const API_URL = 'https://expense-tracker-app-3hti.onrender.com'
+      const transactions = await axios.get(`${API_URL}/api/all`)
       if (transactions.status == 200) {
         console.log(transactions.data);
         alert("See all transactions");
         setAllTransactions(transactions.data.expenses);
+      }else{
+        alert("there was an error")
       }
     };
     Checkhistory();
@@ -25,8 +28,8 @@ const History = () => {
         <h1>Trasactions history</h1>
       </div>
       <div className="history-table">
-        <div className="history-table-body">
-          { allTransactions? allTransactions.map((transaction) => (
+        <div className="history-ta ble-body">
+          { allTransactions && (allTransactions.map((transaction) => (
             <Transactions
               key={transaction._id}
               title={transaction.title}
@@ -36,7 +39,7 @@ const History = () => {
               id={transaction._id}
               date={transaction.date}
             />
-          )) : null}
+          )))}
 
           <div className="expense">
             <p>

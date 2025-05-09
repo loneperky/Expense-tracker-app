@@ -82,6 +82,7 @@ font-size: 4em;
 
 .hero3 h1{
   font-size: 4rem;
+  text-align: left;
 }
 .hero3 button{
   background-color: rgba(0, 185, 185, 0.827);

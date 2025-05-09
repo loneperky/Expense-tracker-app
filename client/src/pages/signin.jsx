@@ -14,47 +14,56 @@ const SignIn = () => {
     e.preventDefault();
     axios.defaults.withCredentials = true;
     try {
-      email.toLowerCase().trim();
-      password.trim();
-      if (!email || !password) {
+      const cleanedEmail = email.toLowerCase().trim();
+      const cleanedPassword = password.trim();
+    
+      if (!cleanedEmail || !cleanedPassword) {
         toast.error("Please fill in all fields");
         return;
       }
-      if (password.length < 6) {
+    
+      if (cleanedPassword.length < 6) {
         toast.error("Password must be at least 6 characters long");
         return;
       }
+    
       const response = await axios.post(`${API_URL}/auth/login`, {
-        email,
-        password,
+        email: cleanedEmail,
+        password: cleanedPassword,
+      }, {
+        withCredentials: true, // important for cookie-based auth
       });
-
-      const getGreeting = () => {
-        const hour = new Date().getHours(); // Get user's local hour (0-23)
-      
-        if (hour < 12) {
-          return "Good morning 🌅";
-        } else if (hour < 17) {
-          return "Good afternoon ☀️";
-        } else {
-          return "Good evening 🌙";
-        }
-      };
-      
-
-      if (!response.status) {
-        toast.error("User not found");
-        navigate("/login");
-        console.log(response);
-      } else {
-        toast.success(`${getGreeting()} ${response.data.fullname}`);
-        console.log(response, "user logged in successfully");
-        alert(response.data.fullname);
-        navigate("/dashboard");
+    
+      const { status, message, user } = response.data;
+    
+      if (!status) {
+        // status: false from backend => invalid credentials
+        toast.error(message || "Invalid email or password");
+        return;
       }
+    
+      // Login was successful
+      const getGreeting = () => {
+        const hour = new Date().getHours();
+        if (hour < 12) return "Good morning 🌅";
+        else if (hour < 17) return "Good afternoon ☀️";
+        else return "Good evening 🌙";
+      };
+    
+      toast.success(`${getGreeting()} ${user.fullname}`);
+      alert(user.fullname);
+      console.log("User logged in:", user);
+      navigate("/dashboard");
+    
     } catch (error) {
-      console.log(error);
+      console.error("Login error:", error);
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An error occurred. Please try again later.");
+      }
     }
+    
   };
 
   return (
@@ -69,6 +78,8 @@ const SignIn = () => {
                 type="text"
                 onChange={(e) => SetEmail(e.target.value)}
                 placeholder="email"
+                name="email"
+                required
               />
             </div>
 
@@ -77,6 +88,8 @@ const SignIn = () => {
               type="password"
               onChange={(e) => setPassword(e.target.value)}
               placeholder="***"
+              name="password"
+              required
             />
             <p className="for">
               <Link to="/forgot-password">Forgot password?</Link>

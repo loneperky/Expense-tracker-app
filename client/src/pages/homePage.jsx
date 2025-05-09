@@ -14,6 +14,7 @@ function HomePage() {
   const [time, setDate] = useState(Date);
   const [user, setUser] = useState(null);
   const [allTransactions, setAllTransactions] = useState([]);
+  const API_URL = 'https://expense-tracker-app-3hti.onrender.com'
 
   const formatDate = (rawDate) => {
     const date = new Date(rawDate);
@@ -23,10 +24,10 @@ function HomePage() {
     return `${month}-${day}-${year}`; // MM-DD-YYYY
   };
   const formattedDate = formatDate(time.trim());
-  console.log(formattedDate);  
+
 
   const navigate = useNavigate();
-  const API_URL = 'https://expense-tracker-app-3hti.onrender.com'
+ 
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -52,6 +53,7 @@ function HomePage() {
     setUser(null);
     alert("user logged out successfully");
     navigate("/login");
+    window.location.reload();
   };
 
   const handleSubmit = async (e) => {
@@ -84,7 +86,7 @@ function HomePage() {
       const response = await axios.post(`${API_URL}/api/add`, {
         amount,
         description,
-        time,
+        time:formattedDate,
         title,
       });
       if (response.status === 200) {
@@ -95,6 +97,9 @@ function HomePage() {
         setStuff("");
         setDest("");
         setDate("");
+      }else{
+        alert("Transaction not added");
+        console.log(response);
       }
       // window.location.reload()
     } catch (error) {
