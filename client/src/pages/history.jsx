@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "../style/history.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Transactions from "../component/transact";
 const History = () => {
   
@@ -13,10 +15,10 @@ const History = () => {
       const transactions = await axios.get(`${API_URL}/api/all`)
       if (transactions.status == 200) {
         console.log(transactions.data);
-        alert("See all transactions");
+        toast.success("Transactions fetched successfully");
         setAllTransactions(transactions.data.expenses);
       }else{
-        alert("there was an error")
+        toast.error("there was an error");
       }
     };
     Checkhistory();

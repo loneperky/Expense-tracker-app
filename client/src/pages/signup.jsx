@@ -12,12 +12,12 @@ function SignUp() {
   const HandleSubmit = async (e) => {
     e.preventDefault();
     try {
-      fullname.trim();
-      email.trim().toLowerCase();
-      password.trim();
+      const trimmedFullname = fullname.trim();
+      const trimmedEmail = email.trim().toLowerCase();
+
       if (!fullname || !email || !password) {
         toast.error("Please fill in all fields");
-        return
+        return;
       }
       if (fullname.length < 3) {
         toast.error("Fullname must be at least 3 characters long");
@@ -35,10 +35,10 @@ function SignUp() {
         toast.error("Password must be less than 20 characters long");
         return;
       }
-      const API_URL = 'https://expense-tracker-app-3hti.onrender.com'
-      const response = await axios.post( `${API_URL}/auth/register`, {
-        fullname,
-        email,
+      const API_URL = "https://expense-tracker-app-3hti.onrender.com";
+      const response = await axios.post(`${API_URL}/auth/register`, {
+        fullname:trimmedFullname,
+        email:trimmedEmail,
         password,
       });
       if (response.status) {

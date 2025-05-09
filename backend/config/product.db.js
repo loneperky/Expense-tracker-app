@@ -3,62 +3,71 @@ import mongoose from "mongoose";
 //gWuwPT34713pB5Y4
 //loneperky
 
-const Expense = new mongoose.Schema({
-  userId:{
-    type:mongoose.Schema.Types.ObjectId, ref:"User"
+const Expense = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "UserDB",
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
+    time: {
+      type: Date,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    // Automatically create createdAt and updatedAt fields
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
-  title:{
-    type:String,
-    required:true
-  },
-  amount: {
-    type: Number,
-    required: true,
-  },
-  time: {
-    type: Date,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  // Automatically create createdAt and updatedAt fields
-  createdAt: {   
-    type: Date,
-    default: Date.now,   
-  }   
-},
-{ timestamps: true},
+  { timestamps: true }
 );
 
 const User = new mongoose.Schema({
-  fullname:{
-    type:String,
-    required:true
-  },
-  email:{
+  fullname: {
     type: String,
     required: true,
   },
-  password:{
+  email: {
     type: String,
     required: true,
   },
+  password: {
+    type: String,
+    required: true,
+  },
+  expenses: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ExpenseDB",
+    },
+  ],
   // Automatically create createdAt and updatedAt fields
-  createdAt: {   
+  createdAt: {
     type: Date,
-    default: Date.now,   
+    default: Date.now,
   },
-  updatedAt: {   
+  updatedAt: {
     type: Date,
-    default: Date.now,   
+    default: Date.now,
   },
-  resetToken:String,
-  resetTokenExpiry:Date,
+  resetToken: String,
+  resetTokenExpiry: Date,
 });
 
-const UserDB = mongoose.model("User", User);
+const UserDB = mongoose.model("UserDB", User);
 const ExpenseDB = mongoose.model("ExpenseDB", Expense);
 
-export { ExpenseDB,UserDB };
+export { ExpenseDB, UserDB };

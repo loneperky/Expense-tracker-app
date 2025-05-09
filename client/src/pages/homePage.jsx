@@ -51,7 +51,7 @@ function HomePage() {
       withCredentials: true,
     });
     setUser(null);
-    alert("user logged out successfully");
+    toast.success("Logout successful");
     navigate("/login");
     window.location.reload();
   };
@@ -64,23 +64,23 @@ function HomePage() {
       description.trim();
       time: formattedDate.trim();
       if (!amount || !title || !description || !time) {
-        alert("Please fill in all fields");
+        toast.error("Please fill in all fields");
         return;
       }
       if (isNaN(amount)) {
-        alert("Amount must be a number");
+        toast.error("Amount must be a number");
         return;
       }
       if (amount < 0) {
-        alert("Amount cannot be negative");
+        toast.error("Amount must be a positive number");
         return;
       }
       if (title.length < 3) {
-        alert("Title must be at least 3 characters long");
+        toast.error("Title must be at least 3 characters long");
         return;
       }
       if (description.length < 5) { 
-        alert("Description must be at least 5 characters long");
+       toast.error("Description must be at least 5 characters long");
         return;
       }
       const response = await axios.post(`${API_URL}/api/add`, {
@@ -88,38 +88,38 @@ function HomePage() {
         description,
         time:formattedDate,
         title,
-      });
+      },);
       if (response.status === 200) {
-        alert("Transaction added successfully");
-        console.log(response);
         toast.success("Transaction added successfully");
+        console.log(response);
         setName("");
         setStuff("");
         setDest("");
         setDate("");
       }else{
-        alert("Transaction not added");
+        toast.error("Transaction not added");
         console.log(response);
       }
       // window.location.reload()
     } catch (error) {
       console.error("Error adding transaction:", error);
-      alert("Error adding transaction");
+      toast.error("Failed to add transaction");
     }
   };
 
   useEffect(() => {
-    const getAllTransactions = async () => {
-      const transactions = await axios.get(`${API_URL}/api/all`);
-      if (transactions.length > 0) {
-        setAllTransactions(transactions.data.expenses);
+    const Checkhistory = async () => {
+     const API_URL = 'https://expense-tracker-app-3hti.onrender.com'
+      const transactions = await axios.get(`${API_URL}/api/all`)
+      if (transactions.status == 200) {
         console.log(transactions.data);
-      } else {
-        console.log("could not fetch data");
-        setAllTransactions(null)
+       
+        setAllTransactions(transactions.data.expenses);
+      }else{
+        toast.error("there was an error");
       }
     };
-    getAllTransactions();
+    Checkhistory();
   }, []);
 
   return (

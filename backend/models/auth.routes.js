@@ -138,7 +138,6 @@ router.post("/forgot-password", async (req, res) => {
   const { email } = req.body;
   const user = await UserDB.findOne({ email });
   if (!user) return res.json({ status: false, message: "user not found" });
-
   const token = crypto.randomBytes(20).toString("hex");
   user.resetToken = token;
   user.resetTokenExpiry = Date.now() + 1000 * 60 * 5; // 1 hour
